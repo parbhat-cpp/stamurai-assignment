@@ -29,15 +29,11 @@ export class User {
     required: true,
   })
   password: string;
-
-  @Prop({
-    enum: UserType,
-    default: UserType.USER,
-  })
-  type: UserType;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
+
+UserSchema.set('timestamps', true);
 
 UserSchema.pre<UserDocument>('save', async function (next) {
   if (!this.isModified('password')) {

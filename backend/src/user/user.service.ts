@@ -46,7 +46,6 @@ export class UserService {
       email: createUser.email,
       fullname: createUser.fullname,
       _id: createUser._id,
-      type: createUser.type,
     };
 
     const accessToken = await this.jwtService.signAsync(userData, {
@@ -82,7 +81,6 @@ export class UserService {
       email: userExists.email,
       fullname: userExists.fullname,
       _id: userExists._id,
-      type: userExists.type,
     };
 
     const accessToken = await this.jwtService.signAsync(userData, {
