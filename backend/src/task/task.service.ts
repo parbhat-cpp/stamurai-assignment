@@ -167,6 +167,29 @@ export class TaskService {
       throw new NotFoundException('Task not found');
     }
 
+    const userAssignedTask =
+      task.assigned_to.includes(userId) && user !== task.created_by;
+
+    if (userAssignedTask && updateTaskDto.status) {
+      const updatedTask = await this.taskModel.updateOne(
+        {
+          $and: [
+            {
+              _id: taskId,
+            },
+            {
+              $or: [{ created_by: userId }, { assigned_to: userId }],
+            },
+          ],
+        },
+        {
+          status: updateTaskDto.status,
+        },
+      );
+
+      return updatedTask;
+    }
+
     const updatedTask = await this.taskModel.updateOne(
       {
         $and: [
